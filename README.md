@@ -3,7 +3,7 @@ A 16-bit RISC-style CPU built in Verilog with multi-cycle execution, custom ISA,
 
 
 
-![Uploading image.png…]()
+![cpu_diagram](https://github.com/user-attachments/assets/0366155d-d532-49f2-b8b5-c9ba0c8c288e)
 
 
 
