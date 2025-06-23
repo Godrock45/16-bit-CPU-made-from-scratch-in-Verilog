@@ -90,3 +90,17 @@ step 3
 # View waveform
 gtkwave dump.vcd
 
+
+
+test samples
+
+
+![Screenshot 2025-06-21 121818](https://github.com/user-attachments/assets/bfd42116-30c5-4286-af68-215a5dd7d074)
+
+
+![Screenshot 2025-06-21 121737](https://github.com/user-attachments/assets/f9fcf59e-71d4-4c11-bf60-29ae4cb1dbcb)
+
+
+
+
+
