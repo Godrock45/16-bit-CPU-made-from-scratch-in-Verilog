@@ -101,12 +101,7 @@ endmodule
 module notic(
     input [15:0]in,
     output [15:0] out);
-    genvar i;
-    generate 
-        for(i=0;i<16;i=i+1)begin : notty_daddy
-        assign out[i]=~in[i];
-        end
-        endgenerate
+   assign out=~in;
 endmodule
 
 // -------------------------- BITWISE XOR -----------------------------
@@ -114,13 +109,9 @@ module Xortic(
     input [15:0]in1,
     input [15:0]in2,
     output [15:0] out);
-    genvar i;
-    generate 
-        for(i=0;i<16;i=i+1)begin : exortic_daddy
-        assign out[i]=in1[i]^in2[i];
-        end
-    endgenerate
+    assign out= in1^in2;
 endmodule
+
 
 
 
