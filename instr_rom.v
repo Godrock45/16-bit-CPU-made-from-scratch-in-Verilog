@@ -1,9 +1,9 @@
-module instr_rom(
+module instr_rom256(
     input [15:0] pc,
     output [15:0] instruction
 );
     reg [15:0] rom [0:255];
-    assign instruction = rom[pc];
+    assign instruction = rom[pc[7:0]];
 
     initial begin
         rom[0] = 16'b0000001010011000; 
@@ -13,4 +13,5 @@ module instr_rom(
         rom[4] = 16'b0001001001001000; 
         rom[5] = 16'b0000100011010000; 
     end
+
 endmodule
