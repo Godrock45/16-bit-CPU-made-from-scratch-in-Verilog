@@ -21,5 +21,10 @@ assign readData2=regs[readAddr2];
                 regs[i]<=16'h0000;
         end
         else if (writeEna)begin
-            regs[writeAddr]<=writeData
+            regs[writeAddr]<=writeData;
+        end
+    end
+endmodule
+
                 
+
