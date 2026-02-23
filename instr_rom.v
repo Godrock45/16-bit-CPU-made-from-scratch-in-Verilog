@@ -24,12 +24,12 @@ module data_mem256x16 (
     output logic [15:0] readData);
 
     logic [15:0] mem [0:255];
-
+    readData<=mem[address[7:0]];
     always_ff @(posedge clk) begin
-        readData<=mem[address[7:0]];
         if(writeEna)begin
             mem[address[7:0]]<=writeData;
         end
     end
 endmodule
     
+
