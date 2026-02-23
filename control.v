@@ -1,120 +1,37 @@
-module controller(
-    input clk,
-    input reset,
-    input [3:0] opcode,
-    input zero_flag,
-    output reg pc_write,
-    output reg ir_write,
-    output reg reg_write,
-    output reg mem_write,
-    output reg alu_src,
-    output reg mem_to_reg,
-    output  reg reg_dst,
-    output reg[2:0] alu_op,
-    output reg [1:0] pc_src
+nodule cpu_16multcycle_readable(
+    input logic clk,
+    input logic rst
 );
-parameter FETCH=0, DECODE=1, EXECUTE=2, WRITEBACK=3,
-MEM_ADDRESS=4, MEM_READ=5,MEM_WRITE=6, BRANCH=7;
 
-reg [2:0]state,next_state;
+logic [15:0] pc;
+logic [15:0] ir;
+logic [15:0] regA;
+logic [15:0] regB;
+logic [15:0] aluOut;
+logic [15:0] memDataReg;
+logic [15:0] fetch_inst;
+instr_rom256 u_rom(.pc(pc), .instruction(fetchedInstruction));
+logic [3:0] opcode;
+logic [2:0] rs1, rs2, rd;
+logic [5:0] imm6;
+decode u_dec(.instruction(ir),.opcde(opcode),.rs1(rs1),.rd(rd),.imm6(imm6));
+logic [15:0] imm6;
+signext_imm6_to15 )inm(.imm6(imm6),.imm16(imm16));
+logic [15:0] rfRead1, rfRead2;
+logic rfWriteEnable;
+logic [2:0] rfWriteAddr;
+logic [15:0] rfWriteData;
 
+regfil8x16 u_rf(.clk(clk), .rst(rst), .readAddr1(rs1), .readData2(rfRead2), .writeEnable(rfWriteEnable), .writeAddr(rfWriteAddr), .writeData(rfWriteData));
+logic [15:0] aluInA, aluInB, aluResult;
+logic aluZero;
+logic [2:0] aluCtrl;
+alu16 u_alu(.opA(aluInA), .opB(aluInB), .(aluCtrl(aluCtrl), .aluResult(aluResult), .isZero(aluZero));
+logic dataMemWriteEnable;
+logic [15:0] dataMemReadData;
 
-always @(*)begin
-    pc_write=0;
-    ir_write=0;
-    reg_write=0;
-    mem_write=0;
-    alu_src=0;
-    mem_to_reg=0;
-    reg_dst=0;
-    alu_op=3'b000;
-    pc_src=2'b00;
-    case(state)
-    FETCH: next_state= DECODE;
-    DECODE:begin
-    case(opcode)
-    4'b0000: next_state=EXECUTE;
-    4'b0001: next_state=EXECUTE;
-    4'b0010: next_state=EXECUTE;
-    4'b0011: next_state=EXECUTE;
-    4'b0100: next_state=EXECUTE;
-    4'b0101: next_state=EXECUTE;
-    4'b0110: next_state=EXECUTE;
-    4'b0111: next_state=EXECUTE;
-    4'b1000: next_state=MEM_ADDRESS;
-    4'b1001: next_state=MEM_ADDRESS;
-    4'b1010: next_state=BRANCH;
-    4'b1011: next_state=BRANCH;
-    default:next_state=FETCH;
-    endcase
-    end
-    EXECUTE: next_state=WRITEBACK;
-    WRITEBACK: next_state=FETCH;
-    MEM_ADDRESS:begin
-        case(opcode)
-        4'b1000:next_state=MEM_READ;
-        4'b1001:next_state=MEM_WRITE;
-        default:next_state=FETCH;
-        endcase
-    end
-    MEM_READ:next_state=FETCH;
-    MEM_WRITE:next_state=FETCH;
-    default:next_state=FETCH;
-    endcase
-    
-end
-always@(*)begin
-    case(state)
-    FETCH:begin
-    ir_write=1;
-     pc_write=1;
-     pc_src=2'b00; 
-    end
-    DECODE:begin
-    end
-    EXECUTE:begin
-        alu_op=opcode[2:0];
-        if(opcode<=4'b0111)begin
-            alu_src=0;
-            reg_dst=1; // for R-type
-        end
-        else if(opcode==4'b1000||opcode==4'b1001)begin
-            alu_src=1;
-            reg_dst=0;
-        end
-    end
-    WRITEBACK:begin
-        if(opcode<=4'b0111)begin
-        reg_write=1;
-        mem_to_reg=0;
-        end
-    end
-    MEM_ADDRESS:begin
-        alu_src=0;
-        alu_op=3'b010;
-    end
-    MEM_READ:begin
-        mem_to_reg = 1;
-        reg_write=1;
-        reg_dst=0; // for I-type
-    end
-    MEM_WRITE:begin
-        mem_write=1;
-    end
-    BRANCH:begin
-        if(zero_flag)begin
-            pc_write=1;
-        end
-        pc_src=2'b01;
-    end
-    default:;
-    endcase
-end
-always @(posedge clk)begin
-    if(reset)
-        state<=FETCH;
-    else
-        state<=next_state;
-end    
-
-endmodule
+					
+            
+            
+            
+            
