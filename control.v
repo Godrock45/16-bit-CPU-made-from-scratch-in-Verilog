@@ -83,7 +83,7 @@ always_comb begin
 	aluInB= regB;
 	aluCtrl= opcode[2:0];
 	if(state==MEM && isStore)
-		dataMemWrite=1'b1;
+		dataMemWriteEnable=1'b1;
 	if(state==WRITEBACK && (isRtype ||isLoad))
 		rfWriteEnable =1'b1;
 		rfWriteAddr=rd;
@@ -145,6 +145,7 @@ endmodule
             
             
             
+
 
 
 
