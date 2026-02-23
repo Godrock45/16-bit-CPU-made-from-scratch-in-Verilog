@@ -1,4 +1,4 @@
-nodule cpu_16multcycle_readable(
+module cpu_16multcycle_readable(
     input logic clk,
     input logic rst
 );
@@ -22,7 +22,7 @@ logic rfWriteEnable;
 logic [2:0] rfWriteAddr;
 logic [15:0] rfWriteData;
 
-regfil8x16 u_rf(.clk(clk), .rst(rst), .readAddr1(rs1), .readData2(rfRead2), .writeEnable(rfWriteEnable), .writeAddr(rfWriteAddr), .writeData(rfWriteData));
+regfile8x16 u_rf(.clk(clk), .rst(rst), .readAddr1(rs1), .readData2(rfRead2), .writeEnable(rfWriteEnable), .writeAddr(rfWriteAddr), .writeData(rfWriteData));
 logic [15:0] aluInA, aluInB, aluResult;
 logic aluZero;
 logic [2:0] aluCtrl;
@@ -145,5 +145,6 @@ endmodule
             
             
             
+
 
 
