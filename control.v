@@ -14,31 +14,31 @@ logic [15:0] fetch_inst;
 logic [3:0] opcode;
 logic [2:0] rs1, rs2, rd;
 logic [5:0] imm6;
-decode u_dec(.instruction(ir),.opcode(opcode), .rs1(rs1), .rs2(rs2) .rd(rd), .imm6(imm6));
+	decode u_dec(.instruction(ir),.opcode(opcode), .rs1(rs1), .rs2(rs2), .rd(rd), .imm6(imm6));
 logic [15:0] imm16;
-	signext_imm6_to15 u_imm(.imm6(imm6),.imm16(imm16));
+	signext_imm6_to16 u_imm(.imm6(imm6),.imm16(imm16));
 logic [15:0] rfRead1, rfRead2;
 logic rfWriteEnable;
 logic [2:0] rfWriteAddr;
 logic [15:0] rfWriteData;
 
-	regfile8x16 u_rf(.clk(clk), .rst(rst), .readAddr1(rs1), .readAddr2(rs2), .readData1(rfRead1), .readData2(rfRead2), .writeEnable(rfWriteEnable), .writeAddr(rfWriteAddr), .writeData(rfWriteData));
+	regfile8x16 u_rf(.clk(clk), .rst(rst), .readAddr1(rs1), .readAddr2(rs2), .readData1(rfRead1), .readData2(rfRead2), .writeEna(rfWriteEnable), .writeAddr(rfWriteAddr), .writeData(rfWriteData));
 logic [15:0] aluInA, aluInB, aluResult;
 logic aluZero;
 logic [2:0] aluCtrl;
 alu16 u_alu(.opA(aluInA), .opB(aluInB), .aluCtrl(aluCtrl), .aluResult(aluResult), .isZero(aluZero));
 logic dataMemWriteEnable;
 logic [15:0] dataMemReadData;
-data_mem256x16 u_dmem(.clk(clk), .writeEnable(dataMemWriteEnable), .address(aluOut), .writeData(regB), .readData(dataMemReadData));
+data_mem256x16 u_dmem(.clk(clk), .writeEna(dataMemWriteEnable), .address(aluOut), .writeData(regB), .readData(dataMemReadData));
 
 parameter FETCH =0, DECODE= 1, EXECUTE=2, MEM=3, WRITEBACK=4;
 reg [2:0] state, nextState;
-logic isRtpe, isLoad, isStore, isBEQ, isBNE;
+logic isRtype, isLoad, isStore, isBEQ, isBNE;
 always_comb begin
 	isRtype = (opcode<=4'h7);
 	isLoad = (opcode == 4'h8);
 	isStore = (opcode == 4'h9);
-	isBeQ = (opcode ==4'hA);
+	isBEQ = (opcode ==4'hA);
 	isBNE = (opcode==4'hB);
 end
 
@@ -84,10 +84,11 @@ always_comb begin
 	aluCtrl= opcode[2:0];
 	if(state==MEM && isStore)
 		dataMemWriteEnable=1'b1;
-	if(state==WRITEBACK && (isRtype||isLoad))
+	if(state==WRITEBACK && (isRtype||isLoad))begin
 		rfWriteEnable =1'b1;
 		rfWriteAddr=rd;
 		rfWriteData= isRtype?aluOut:DataMemRead;
+	end
 end
 
 always_ff @(posedge clk) begin
@@ -97,7 +98,7 @@ always_ff @(posedge clk) begin
 		regA<=16'h000;
 		regB<=16'h0000;
 		aluOut <=16'h0000;
-		DataMemReg<=16'h0000;
+		DataMemRead<=16'h0000;
 	end
 	else begin
 		case(state)
@@ -145,6 +146,7 @@ endmodule
             
             
             
+
 
 
 
