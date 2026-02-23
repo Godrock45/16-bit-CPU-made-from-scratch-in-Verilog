@@ -20,8 +20,9 @@ module data_mem256x16 (
     input logic clk,
     input logic writeEna,
     input logic [15:0] address,
-    input logic [15:0] writeData
-    output logic [15:0] readData);
+    input logic [15:0] writeData,
+    output logic [15:0] readData
+);
 
     logic [15:0] mem [0:255];
     readData<=mem[address[7:0]];
@@ -32,4 +33,5 @@ module data_mem256x16 (
     end
 endmodule
     
+
 
