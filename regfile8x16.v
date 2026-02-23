@@ -10,7 +10,7 @@ module regfile8x16 (
     input logic [15:0] writeData
     );
 logic [15:0] regs [0:7];
-ineger i;
+integer i;
 //combinational read
 assign readData1=regs[readAddr1];
 assign readData2=regs[readAddr2];
@@ -27,4 +27,5 @@ assign readData2=regs[readAddr2];
 endmodule
 
                 
+
 
