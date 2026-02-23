@@ -11,7 +11,7 @@ assign opcode=destructo[15:12];
 assign rs1=destructo[11:9];
 assign rs2=destructo[8:6];
 assign rd=destructo[5:3];
-assign imm= destructo[5:0];
+assign imm6= destructo[5:0];
 
 endmodule
 
@@ -22,5 +22,6 @@ module signext_inm6_to16(
     assign imm16= {{10{imm6[5]}},imm6);
 endmodule
                    
+
 
 
