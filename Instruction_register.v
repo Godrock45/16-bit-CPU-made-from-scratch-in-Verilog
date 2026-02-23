@@ -1,22 +1,11 @@
-module instruct(
-    input clk,
-    input ena,
-    input [15:0] instructo,
-    output reg [15:0] destructo
-);
-always @(posedge clk) begin
-    if(ena)
-        destructo <= instructo;
-end
-endmodule
 
-module destruct(
-    input [15:0] destructo,
+module decode16(
+    input [15:0] instruction,
     output [3:0] opcode,
     output [2:0] rs1,
     output [2:0] rs2,
     output [2:0] rd,
-    output [5:0] imm
+    output [5:0] imm6
 );
 assign opcode=destructo[15:12];
 assign rs1=destructo[11:9];
@@ -26,10 +15,11 @@ assign imm= destructo[5:0];
 
 endmodule
 
-module signnext_inm6to16(
+module signext_inm6_to15(
     input logic[5:0] imm6,
     output logic [15:0] imm16
 );
     assign imm16= {{10{imm6[5]}},imm6);
 endmodule
                    
+
