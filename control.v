@@ -8,7 +8,7 @@ logic [15:0] ir;
 logic [15:0] regA;
 logic [15:0] regB;
 logic [15:0] aluOut;
-logic [15:0] memDataReg;
+	logic [15:0] DataMemRead;
 logic [15:0] fetch_inst;
 instr_rom256 u_rom(.pc(pc), .instruction(fetchedInstruction));
 logic [3:0] opcode;
@@ -87,7 +87,7 @@ always_comb begin
 	if(state==WRITEBACK && (isRtype ||isLoad))
 		rfWriteEnable =1'b1;
 		rfWriteAddr=rd;
-		rfWriteData= isRtype?alOut:memDataReg;
+		rfWriteData= isRtype?aluOut:DataMemRead;
 end
 
 always_ff @(posedge clk) begin
@@ -127,7 +127,7 @@ always_ff @(posedge clk) begin
 			end
 			MEM:begin
 				if(isLoad)
-					memDataRegM<=dataMemReadData;
+					DataMemRead<=dataMemReadData;
 			end
 			WRITEBACK: begin
 			end
@@ -145,6 +145,7 @@ endmodule
             
             
             
+
 
 
 
