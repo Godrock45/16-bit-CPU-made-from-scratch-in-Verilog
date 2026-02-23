@@ -15,11 +15,12 @@ assign imm= destructo[5:0];
 
 endmodule
 
-module signext_inm6_to15(
+module signext_inm6_to16(
     input logic[5:0] imm6,
     output logic [15:0] imm16
 );
     assign imm16= {{10{imm6[5]}},imm6);
 endmodule
                    
+
 
