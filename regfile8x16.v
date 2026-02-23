@@ -3,8 +3,8 @@ module regfile8x16 (
     input logic rst,
     input logic [2:0] readAddr1,
     input logic [2:0] readAddr2,
-    input logic [15:0] readData1,
-    input logic [15:0] readData2,
+    output logic [15:0] readData1,
+    output logic [15:0] readData2,
     input logic writeEna,
     input logic [2:0] writeAddr,
     input logic [15:0] writeData
@@ -27,5 +27,6 @@ assign readData2=regs[readAddr2];
 endmodule
 
                 
+
 
 
