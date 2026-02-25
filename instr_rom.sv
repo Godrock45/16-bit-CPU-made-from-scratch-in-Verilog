@@ -3,7 +3,7 @@ module instr_rom256(
     output [15:0] instruction
 );
     reg [15:0] rom [0:255];
-    assign instruction = rom[pc[7:0]];
+    assign instruction = rom[pc[15:0]];
 
     initial begin
         rom[0] = 16'b0000001010011000; 
@@ -33,5 +33,6 @@ module data_mem256x16 (
     end
 endmodule
     
+
 
 
